@@ -13,33 +13,22 @@ interface TimerProps {
 const Timer: FC<TimerProps> = ({sec, min}) => {
     const dispatch = useAppDispatch();
     const timeOver = useAppSelector(({main}) => main.timeOver);
-    const [minutes, setMinutes] = useState<number>(timeOver);
+    //const [minutes, setMinutes] = useState<number>(timeOver);
     const [seconds, setSeconds] = useState<number>(timeOver * 60);
     const [isCounting, setIsCounting] = useState<boolean>(false);
-    const minToArr: number[] = (minutes < 10 ? '00' + minutes : '0' + minutes).split('').map(num => +num);
+    const minToArr: number[] = (Math.floor(seconds / 60) < 10 ? '00' + Math.floor(seconds / 60) : '0' + Math.floor(seconds / 60)).split('').map(num => +num);
     const secToArr: number[] = ((seconds % 60) < 10 ? '00' + seconds % 60 : '0' + seconds % 60).split('').map(num => +num);
     const gameStatus = useAppSelector(({main}) => main.gameStatus)
     
     
     useEffect(() => {
         if (isCounting) {
-            if (min) {
-                const timer = setInterval(() => {
-                    setMinutes(state => state >= 1 ? state - 1 : 0)
-                }, 1000 * 60);
+            const timer = setInterval(() => {
+                setSeconds(state => state >= 1 ? state - 1 : 0)
+            }, 1000);
 
-                return () => {
-                    clearInterval(timer)
-                }
-            }
-            if (sec) {
-                const timer = setInterval(() => {
-                    setSeconds(state => state >= 1 ? state - 1 : 0)
-                }, 1000);
-
-                return () => {
-                    clearInterval(timer)
-                }
+            return () => {
+                clearInterval(timer)
             }
         }
     }, [isCounting])
@@ -62,12 +51,10 @@ const Timer: FC<TimerProps> = ({sec, min}) => {
                 setIsCounting(true);
                 break;
             case 'restart':
-                setMinutes(timeOver);
                 setSeconds(timeOver * 60);
                 setIsCounting(false);
                 break;
             default:
-                setMinutes(timeOver);
                 setSeconds(timeOver * 60);
                 setIsCounting(true);
         }
