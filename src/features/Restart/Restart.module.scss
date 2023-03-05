@@ -1,0 +1,24 @@
+.restartBtn {
+    width: 53px;
+    height: 50px;
+    background: url('../../assets/img/minesweeper-sprites_9TPZzv3.png') no-repeat;
+    background-size: 279px;
+    background-position: 0px -51px;
+    border: none;
+
+    &:active {
+        background-position: -54px -51px;
+    }
+
+    &.wait {
+        background-position: -108px -51px;
+    }
+
+    &.win {
+        background-position: -162px -51px;
+    }
+
+    &.lose {
+        background-position: -216px -51px;
+    }
+}
